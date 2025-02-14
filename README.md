@@ -1,1 +1,5 @@
-# senior-thesis
+# Senior Thesis in Data Science
+
+_Week 1 Project Summary_
+
+My thesis aims to generate random graphs that models dual graphs of maps used in redistricting. Dual graphs are graphs where each vertex corresponds to a region in the original map. For this project, the originals maps will be county, block, block group, and census tract maps for all states. Each vertex in the dual graph will share an edge with another vertex if those two vertices are adjacent in the original map. In order to be able to model dual graphs, I will investigate properties of these dual graphs to understand their characteristic to then model them in the random graphs and know what characteristics the the random graphs must contain. Since the county data is the smallest, has the least number of vertices, I will first use these when conducting my analysis and then I replicate my results with the other three types of maps: block, block group, and census tract. Finally, based on my analysis and results from all four types of maps, I will generate my conclusions.
