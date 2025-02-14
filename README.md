@@ -18,3 +18,5 @@ Wrote to code to generate a random graph with edges created based on a probabili
 ![Prob 10](imgs/prob_ten.png)
 
 ![Prob 15](imgs/prob_fifteen.png)
+
+Based on this, the probability definetly has to be greater than 5 because the first two graphs had too many edges.
