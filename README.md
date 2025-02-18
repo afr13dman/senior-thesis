@@ -11,13 +11,13 @@ _02-14-2025_
 
 Wrote to code to generate a random graph with edges created based on a probability $n^dist$ where dist is the distance between vertice u and v. I created four graphs with $n = 2,5,10,15$. Below are the resulting graphs in that order.
 
-<img src=prob_two.png/>
+<img src=imgs/prob_two.png/>
 
-<img src=prob_five.png/>
+<img src=imgs/prob_five.png/>
 
-<img src=prob_ten.png/>
+<img src=imgs/prob_ten.png/>
 
-<img src=prob_fifteen.png/>
+<img src=imgs/prob_fifteen.png/>
 
 Based on this, the probability definetly has to be greater than 5 because the first two graphs had too many edges.
 
