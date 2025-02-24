@@ -5,12 +5,12 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 rand_seed = 13 #13, 47, 50
-num_vertices = 20
-probs = [19.5]
+num_vertices = 50
+bases = [400, 420, 450, 470, 500, 550, 600, 700, 750] # 100, 120, 180, 200, 240, 270, 310, 340, 360, 
 
 df = pd.DataFrame(columns = ['rand_seed', 'num_vertices', 'prob_base_num', 'avg_deg'])
 
-for p in probs:
+for b in bases:
 
     # Set random seed
     random.seed(rand_seed)
@@ -37,18 +37,13 @@ for p in probs:
             distance = math.dist(u, v)
             
             # Generate probability if an edge exists
-            prob = p**(-distance)
+            prob = b**(-distance)
             r = random.random()
             if r < prob: # create an edge
                 G.add_edge(i, j)
     
-    # Creating a table to understand avg degree
-    # avg_deg = 2 * G.number_of_edges() / G.number_of_nodes()
-    # df.loc[len(df)] = [rand_seed, num_vertices, p, avg_deg]
+    # Create a table to understand avg degree
+    avg_deg = 2 * G.number_of_edges() / G.number_of_nodes()
+    df.loc[len(df)] = [rand_seed, num_vertices, b, avg_deg]
 
-    # Create a dictionary of node positions to plot a figure
-    node_locations = {v: (float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])) for v in G.nodes()}
-    nx.draw(G, node_size = 50, pos = node_locations)
-    plt.savefig(f'imgs/model_one/{num_vertices}-{rand_seed}-{p}.png')
-
-# df.to_csv("model_one.csv", header=True, index = False)
+df.to_csv("model_one.csv", header=True, index = False)
