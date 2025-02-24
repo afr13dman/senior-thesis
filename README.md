@@ -25,3 +25,18 @@ Next step:
 - Read three books found
 - Generate 1-3 ideas of other ways to model random graphs
 - Create a list of properties/characteristics of random graphs as well as dual graphs
+
+_02-21-2025_
+
+I looked at three different models:
+- Model One: Add an edge based on a probability
+- Model Two: Add the (5.2n) shortest edges where n is the number of vertices
+- Model Three: Delaunay Triangulation
+
+For each model, I explored the resulting graphs for 20, 30, 40, and 50 vertices with the random seed set to 12, 47, and 50. With Model One, I found the base which would create a graph that had an average degree of around 5.2. I found that some of the graphs created were not connected, but these occured with when the number of vertices was higher. Meanwhile, for Model Two and Model Three, all graphs were connected. I had initially thought that Model Two may create unconnected graphs, which I did not find, but potentially there is a seed which will create an unconnected graph.
+
+For Model One, I found that the base had to be larger than the number of vertices, and as the number of vertices increases, the base had to increase exponentially, but it also depended greatly on the random seed.
+
+I did not calculate the average degree for Models Two and Three.
+
+I wonder if there is a way to a model that combines two or three of these models. 

@@ -17,20 +17,24 @@
 - [ ] try to make missing graphs
     - [ ] find shape files and turn into graphs and then write to json file
 - [ ] properties of dual graphs
-- [ ] start generating some ideas
-    - [ ] we want to build random graphs that somehow resemble dual graphs
+- [ ] start generating some ideas: we want to build random graphs that somehow resemble dual graphs
     - [ ] research ideas: google scholar, textbooks at the library (random graphs)
-        - [ ] what are some random graph models? what is being done?
-        - [ ] what are ways to characterize graphs?
+        - what are some random graph models? what is being done? what are ways to characterize graphs?
     - [ ] bring 2-4 ideas for modeling random graphs and 2-4 ways to assess them
 - [x] look at the model prof cannon suggested
     - [x] networkx to store vertices and edges
     - [x] set a random seed
-- [ ] write up motivation for current thesis
+- [x] write up motivation for current thesis (ish, thought and talked about it)
 
 ## Week 4
-- [ ] Create a thesis block time during the week (10 to 12 hours)
-- [ ] Create a new step list after each day/work time
+- [x] Create a thesis block time during the week (10 to 12 hours) (ish)
+- [x] Create a new step list after each day/work time
+
+## Week 5
+- [x] Investigate model one more
+- [x] Start model two investigation
+- [x] Start delaunay triangulation model
+- [ ] Read some of the black book
 
 # Random notes
 Our graphs:
