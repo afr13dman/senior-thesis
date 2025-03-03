@@ -49,3 +49,9 @@ _03-01-2025_
 
 I found the average and median degree for each state at both tract and block group level. Then for each level, I found the average across states. The average median degrees for tract and block groups was 5.0, while the average average degree was 5.398 at tract level and 5.441 at block group level. I think I should use average degree at around 5.4 and redo model two.
 
+Things I did:
+- Created `models.py` in coding_models folder, which includes four functions: one to create a random graph based on a given number of vertices and random seed. Then three others, each which creates a graph based on model 1, model 2, and model 3, respectively.
+- Created a python notebook, `model_investigation.ipynb`, which uses the functions from `models.py` to create graphs based and then check if planar and connected and then plot them. This speeds up my plotting graphs and organizing them into the powerpoint that I was going last week.
+- Wrote `avg_median_degree.py` which computes the average degree and median degree for the real data at tract and block group. Then `degree_exploration.ipynb` find the average of each. This will help when creating the model graphs to know what avg degree I want to aim for.
+- Used Prof Cannon research students code plus edited it to plot spanning trees of real data and my models in `spanning_trees.py`.
+    - not working right now...
