@@ -37,10 +37,10 @@
 - [ ] ~~Read some of the black book~~
 
 ## Week 6
-- [ ] Plot Model 1 without lat and long coordinates
+- [x] Plot Model 1 without lat and long coordinates
 - [x] Plot Model 2 without lat and long coordinates
 - [x] Find actual avg/median degree of all dual graphs
-- [ ] Check if graphs are planar and connected
+- [x] Check if graphs are planar and connected
 - [ ] More trials for M1 to see if I can find a relationship between base and number of vectices
 - [ ] Spanning trees as another way to assess our models
     - [ ] and what are other properties of dual graphs and ways to assess our models

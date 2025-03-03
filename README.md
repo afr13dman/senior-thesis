@@ -41,6 +41,10 @@ I did not calculate the average degree for Models Two and Three.
 
 I wonder if there is a way to a model that combines two or three of these models. 
 
+Also, articles about Delaunay Triangulation:
+- https://ianthehenry.com/posts/delaunay/
+- https://gwlucastrig.github.io/TinfourDocs/DelaunayIntro/index.html
+
 _03-01-2025_
 
 I found the average and median degree for each state at both tract and block group level. Then for each level, I found the average across states. The average median degrees for tract and block groups was 5.0, while the average average degree was 5.398 at tract level and 5.441 at block group level. I think I should use average degree at around 5.4 and redo model two.

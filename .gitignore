@@ -2,3 +2,4 @@
 model_one.csv
 ~$*.xls*
 ~$*.ppt*
+__pycache__
