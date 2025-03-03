@@ -6,6 +6,8 @@ import math
 import random 
 import pandas as pd
 import networkx as nx
+import numpy as np
+from scipy.spatial import Delaunay
 
 def create_graph(num_vertices, rand_seed):
     """
@@ -98,4 +100,26 @@ def model_two(n, rand_seed):
         j = row['node2']
         G.add_edge(i, j)
     
+    return G
+
+# Model 3
+def model_three(n, rand_seed):
+    """
+    Creates a graph based on Delaunay Triangulation of the vertices.
+
+    Function returns the graph.
+    """
+    # Create graph
+    G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute the Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                G.add_edge(simplex[i], simplex[j])
+
     return G

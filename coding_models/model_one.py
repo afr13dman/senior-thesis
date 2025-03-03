@@ -46,4 +46,4 @@ for b in bases:
     avg_deg = 2 * G.number_of_edges() / G.number_of_nodes()
     df.loc[len(df)] = [rand_seed, num_vertices, b, avg_deg]
 
-df.to_csv("model_one.csv", header=True, index = False)
+df.to_csv("coding_models/model_one.csv", header=True, index = False)
