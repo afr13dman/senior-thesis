@@ -32,4 +32,4 @@ for state_file in os.listdir(directory):
         state_vertices.append([state.group()[1:-1], map_type.group()[:-1], avg_degree, median_degree])
     
 df = pd.DataFrame(state_vertices, columns=['State', 'Map Type', 'Avg Degree', 'Median Degree'])
-df.to_csv(f"{df_type}_avg_median_deg.csv", header=True, index = False)
+df.to_csv(f"state_graph_exploration/{df_type}_avg_median_deg.csv", header=True, index = False)
