@@ -20,7 +20,6 @@ for state_file in os.listdir(directory):
         state_graph = Graph.from_json(f)
 
         # Calculate avg degree of graph
-        # Prof Cannon's research students had (2 * Edges) / Nodes .... Why?
         avg_degree = 2 * state_graph.number_of_edges() / state_graph.number_of_nodes()
 
         # Calculate median degree of graph
