@@ -69,7 +69,7 @@ def model_one(num_vertices, rand_seed, base):
 # Model 2
 def model_two(n, rand_seed):
     """
-    Creates a graph with only the (5.2n) shortest edges
+    Creates a graph with only the (5.4n) shortest edges
     where n is the number of vertices in the graph
     and rand_seed is the random seed used to generate the points.
 
@@ -93,7 +93,7 @@ def model_two(n, rand_seed):
             dist_df.loc[len(dist_df)] = [i, j, distance]
     
     # Add the (5.2n) shortest edges
-    edges = int(5.2 * n)
+    edges = int(5.4 * n)
     dist_sorted = dist_df.sort_values("distance").head(edges)
     for index, row in dist_sorted.iterrows():
         i = row['node1']

@@ -55,3 +55,10 @@ Things I did:
 - Wrote `avg_median_degree.py` which computes the average degree and median degree for the real data at tract and block group. Then `degree_exploration.ipynb` find the average of each. This will help when creating the model graphs to know what avg degree I want to aim for.
 - Used Prof Cannon research students code plus edited it to plot spanning trees of real data and my models in `spanning_trees.py`.
     - not working right now...
+
+Properties of Dual Graphs / Other Ways to assess our models:
+- Degree Distribution: Compare the degree distribution of your random graphs to that of the real dual graphs. Many geographic dual graphs tend to have a heavy-tailed or nearly uniform degree distribution.
+    - Avg, max, median
+    - Histogram of the degrees
+- Cluster Coefficient: Measures the likelihood that two adjacent nodes of a graph are also connected. Real-world geographic dual graphs often exhibit higher clustering due to adjacency relationships.
+- Graph Assortativity: Measures whether high-degree nodes tend to be connected to other high-degree nodes. Many geographic networks exhibit neutral or negative assortativity.
