@@ -106,7 +106,7 @@ else:
     log_trees_m1 = []
 
     # Import data to get rand_seed, num_vertices, and prob base
-    df = pd.read_excel("coding_models/model_one_results.xlsx", sheet_name="Sheet2", skiprows=2)
+    df = pd.read_excel("model_one_results.xlsx", sheet_name="5.4", skiprows=2)
 
     for index, row in df.iterrows():
         nodes = int(row["num_vertices"])
@@ -225,34 +225,44 @@ else:
 # plot st constant v num of nodes #
 ###################################
 
+# PLOT AGAINST EACH OTHER
+
 plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-#plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
-#plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
-#plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
+plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
+plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
 plt.title('ST Constant vs Number of Nodes for Real Data')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
-# plt.legend(['real data','model 1', 'model 2', 'model 3'])
-plt.savefig(f'imgs/st_cons/st_cons_real_data.png')
+plt.legend(['real data','model 1', 'model 2', 'model 3'])
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models.png')
 plt.show()
 
-plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
-plt.title('ST Constant vs Number of Nodes for Model 1')
-plt.xlabel('Number of Nodes')
-plt.ylabel('ST Constant')
-plt.savefig(f'imgs/st_cons/st_cons_models1.png')
-plt.show()
+# PLOT REAL DATA AND MODELS SEPARATELY 
+# plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+# plt.title('ST Constant vs Number of Nodes for Real Data')
+# plt.xlabel('Number of Nodes')
+# plt.ylabel('ST Constant')
+# plt.savefig(f'imgs/st_cons/st_cons_real_data.png')
+# plt.show()
 
-plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
-plt.title('ST Constant vs Number of Nodes for Model 2')
-plt.xlabel('Number of Nodes')
-plt.ylabel('ST Constant')
-plt.savefig(f'imgs/st_cons/st_cons_models2.png')
-plt.show()
+# plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+# plt.title('ST Constant vs Number of Nodes for Model 1')
+# plt.xlabel('Number of Nodes')
+# plt.ylabel('ST Constant')
+# plt.savefig(f'imgs/st_cons/st_cons_models1.png')
+# plt.show()
 
-plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
-plt.title('ST Constant vs Number of Nodes for Model 3')
-plt.xlabel('Number of Nodes')
-plt.ylabel('ST Constant')
-plt.savefig(f'imgs/st_cons/st_cons_models3.png')
-plt.show()
+# plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
+# plt.title('ST Constant vs Number of Nodes for Model 2')
+# plt.xlabel('Number of Nodes')
+# plt.ylabel('ST Constant')
+# plt.savefig(f'imgs/st_cons/st_cons_models2.png')
+# plt.show()
+
+# plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
+# plt.title('ST Constant vs Number of Nodes for Model 3')
+# plt.xlabel('Number of Nodes')
+# plt.ylabel('ST Constant')
+# plt.savefig(f'imgs/st_cons/st_cons_models3.png')
+# plt.show()
