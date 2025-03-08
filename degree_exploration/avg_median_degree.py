@@ -5,8 +5,19 @@ import re
 import pandas as pd
 from statistics import median
 
+def max_degree(G):
+    # Initialize max_degree
+    max_degree = -1
+
+    # Iterate over all nodes and their degrees
+    for degree in G.degree():
+        if degree[1] > max_degree:
+            max_degree = degree[1]
+    
+    return max_degree
+
 # assign directory
-df_type = 'bg' # Work with either tracts (t) or block groups (bg)
+df_type = 't' # Work with either tracts (t) or block groups (bg)
 directory = 'local copy of data/' + df_type + '/'
 state_vertices = []
 
@@ -26,9 +37,12 @@ for state_file in os.listdir(directory):
         degrees = sorted([degree for _, degree in state_graph.degree()], reverse=False)
         median_degree = median(degrees)
 
+        # Calculate max degree
+        max_deg = max_degree(state_graph)
+
         state = re.search(r"_.*?\.", state_file)
         map_type = re.search(r"^.*?_", state_file)
-        state_vertices.append([state.group()[1:-1], map_type.group()[:-1], avg_degree, median_degree])
+        state_vertices.append([state.group()[1:-1], map_type.group()[:-1], avg_degree, median_degree, max_deg])
     
-df = pd.DataFrame(state_vertices, columns=['State', 'Map Type', 'Avg Degree', 'Median Degree'])
-df.to_csv(f"state_graph_exploration/{df_type}_avg_median_deg.csv", header=True, index = False)
+df = pd.DataFrame(state_vertices, columns=['State', 'Map Type', 'Avg Degree', 'Median Degree', 'Max Degree'])
+df.to_csv(f"degree_exploration/{df_type}_avg_median_deg.csv", header=True, index = False)
