@@ -110,7 +110,17 @@ def model_two(n, rand_seed):
         j = row['node2']
         G.add_edge(i, j)
     
-    return G
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
+        
+        return G_sub
 
 # Model 3
 def model_three(n, rand_seed):
