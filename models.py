@@ -92,8 +92,8 @@ def model_two(n, rand_seed):
             # Add it to the dataframe
             dist_df.loc[len(dist_df)] = [i, j, distance]
     
-    # Add the (5.2n) shortest edges
-    edges = int(5.4 * n)
+    # Add the (5.4/2)n shortest edges
+    edges = int((5.4/2) * n)
     dist_sorted = dist_df.sort_values("distance").head(edges)
     for index, row in dist_sorted.iterrows():
         i = row['node1']
