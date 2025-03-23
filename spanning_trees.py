@@ -238,6 +238,19 @@ plt.legend(['real data','model 1', 'model 2', 'model 3'])
 plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models.png')
 plt.show()
 
+# Zoom in
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
+plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
+plt.title('ST Constant vs Number of Nodes for Real Data')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.xlim(0, 1000)
+plt.legend(['real data','model 1', 'model 2', 'model 3'])
+plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models_.png')
+plt.show()
+
 # PLOT REAL DATA AND MODELS SEPARATELY 
 # plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
 # plt.title('ST Constant vs Number of Nodes for Real Data')
