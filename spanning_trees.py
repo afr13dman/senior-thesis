@@ -15,8 +15,6 @@ import pandas as pd
 import pickle
 
 # Import model functions
-import sys
-sys.path.append("coding_models")
 import models
 
 
