@@ -9,17 +9,7 @@ My thesis aims to generate random graphs that models dual graphs of maps used in
 
 _02-14-2025_
 
-Wrote to code to generate a random graph with edges created based on a probability $n^dist$ where dist is the distance between vertice u and v. I created four graphs with $n = 2,5,10,15$. Below are the resulting graphs in that order.
-
-<img src=imgs/prob_two.png/>
-
-<img src=imgs/prob_five.png/>
-
-<img src=imgs/prob_ten.png/>
-
-<img src=imgs/prob_fifteen.png/>
-
-Based on this, the probability definetly has to be greater than 5 because the first two graphs had too many edges.
+Wrote to code to generate a random graph with edges created based on a probability $n^{dist}$ where dist is the distance between vertice u and v. I created four graphs with $n = 2,5,10,15$. Based on this, the probability definetly has to be greater than 5 because the first two graphs had too many edges.
 
 Next step:
 - Read three books found
@@ -62,3 +52,36 @@ Properties of Dual Graphs / Other Ways to assess our models:
     - Histogram of the degrees
 - Cluster Coefficient: Measures the likelihood that two adjacent nodes of a graph are also connected. Real-world geographic dual graphs often exhibit higher clustering due to adjacency relationships.
 - Graph Assortativity: Measures whether high-degree nodes tend to be connected to other high-degree nodes. Many geographic networks exhibit neutral or negative assortativity.
+
+_03-06-2025_
+
+- Updated model 2 to add the 5.4n shortest edges
+- Explored more of model 1, looking at different random seeds and the base needed to get an avg degree of 5.4 and more.
+    - Need to see if I can find a relationship between them...
+- Plotting spanning trees: Model 1 has the closest ST constant
+- Planar and Connected: Only Model 3 is both. Model 1 and 2 are not planar. Model 2 has always been connected except for once with 40 vertices and random seed 23. Model 1 is connected about two thirds of the time.
+- Added Max Degree calculation: Model 2 has the closest avg max degree but still not close real data.
+
+
+_03-23-2025_
+
+- Updated model 2 to add (5.4/2)n shortest edges
+- Spanning trees:
+<img src=imgs/st_cons/st_cons_real_data_vs_models_.png>
+
+Now I zoomed in to better see how the spanning tree constant for the models changed.
+<img src=imgs/st_cons/st_cons_zoomed_in_real_data_vs_models_.png>
+
+- SP notes:
+    - Model 1 and 2 have the closest st constant to real data. Model 3 is the furthest away but removing edges randomly brings the st constant closer to read data.
+
+- For Model 1 and Model 2, if the graph was not connected, I chose the largest connected subgraph so that the graphs would be connected. Now all models have connected graphs.
+
+- Tried to run more trials with larger number of vertices for Model 2 and 3. With number of vertices [200, 400, 600, 800], it was taking a ton of time to run so I had to pause and stop and will come back to it later.
+    - It takes a while for Model 2, not model 3 or model 4. I think it's because it has to order the edges by distance
+        - 7 seconds with no adds
+        - 20 seconds to add three 200 num vertices graph
+        - 3 minutes to add three 200 num vertices and three 400 num vertices
+        - 15 minutes to add three 200 num vertices, three 400 num vertices, and three 600 # vertices
+
+- Added model 4: delaunay triangulation with randomly removing edges, basically model 3 with edge removal

@@ -41,10 +41,30 @@
 - [x] Plot Model 2 without lat and long coordinates
 - [x] Find actual avg/median degree of all dual graphs
 - [x] Check if graphs are planar and connected
-- [ ] More trials for M1 to see if I can find a relationship between base and number of vectices
-- [ ] Spanning trees as another way to assess our models
-    - [ ] and what are other properties of dual graphs and ways to assess our models
+- [x] More trials for M1 to see if I can find a relationship between base and number of vectices
+- [x] Spanning trees as another way to assess our models
+    - [x] and what are other properties of dual graphs and ways to assess our models
 - [ ] Read some of the black book
+
+## Week 7
+
+## Week 8
+- [x] Model 2 to add the (5.4/2)n shortest edges
+- [x] Spanning trees zoom in to 0 to 1000 on x-axis
+- [x] Model 1: remove the vertices that aren't connected to the main chunk to make it connected
+- [ ] For Model 1, plot base against # of vertices
+    - [x] log(base) vs. # vertices: if original curve is exponential, this will be linear
+    - [x] log(base) vs. log(# vertices): if original curve is polynomial, this will be linear
+    - [x] base vs. log(# vertices): if original curve is logarithmic, this will be linear
+    - (log base 2)
+- [ ] Running more trials with larger number of vertices (Model 2 and 3)
+    - [x] 15 minutes to add three 200 num vertices, three 400 num vertices, and three 600 # vertices for Model 2
+- [ ] Spend 3 hours on how to merge parts of models together to get the properties we want
+    - [x] Take delaunay triangulation and randomly remove some edges
+- [ ] Spend 1-3 hours writing
+    - Write, don't try to be perfect
+    - Break it down into small chunks: write for 15 minutes, take a break, and then see what is achievable
+    - Take frequent breaks
 
 # Random notes
 Our graphs:
