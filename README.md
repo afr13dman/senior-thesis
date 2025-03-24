@@ -67,10 +67,10 @@ _03-23-2025_
 
 - Updated model 2 to add (5.4/2)n shortest edges
 - Spanning trees:
-<img src=imgs/st_cons/st_cons_real_data_vs_models_.png>
+<img src=imgs/st_cons/st_cons_real_data_vs_models.png>
 
 Now I zoomed in to better see how the spanning tree constant for the models changed.
-<img src=imgs/st_cons/st_cons_zoomed_in_real_data_vs_models_.png>
+<img src=imgs/st_cons/st_cons_zoomed_in_real_data_vs_models.png>
 
 - SP notes:
     - Model 1 and 2 have the closest st constant to real data. Model 3 is the furthest away but removing edges randomly brings the st constant closer to read data.
@@ -83,5 +83,10 @@ Now I zoomed in to better see how the spanning tree constant for the models chan
         - 20 seconds to add three 200 num vertices graph
         - 3 minutes to add three 200 num vertices and three 400 num vertices
         - 15 minutes to add three 200 num vertices, three 400 num vertices, and three 600 # vertices
+        - About an hour to add three 200 num vertices, three 400 num vertices, three 600 # vertices, and three 800 # vertices
 
-- Added model 4: delaunay triangulation with randomly removing edges, basically model 3 with edge removal
+- Added model 4: delaunay triangulation with randomly removing edges, basically model 3 with edge removal. It is always planar and connected
+    - With remove probability of 0.2: Too small average degree and median degree (close to 3.something). Max degree is also small (around 6). ST cons way too high
+    - With remove probability of 0.4: ST cons is closer to real world data, but avg deg, med deg, and max deg much smaller.
+
+- Add Model 1 plots, maybe exponential but the log(base) vs. # of vertices doesn't exactly have a linear relationship, but it's the closests out of all the possibilities. Polynomial is the next closests.

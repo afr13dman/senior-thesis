@@ -52,13 +52,13 @@
 - [x] Model 2 to add the (5.4/2)n shortest edges
 - [x] Spanning trees zoom in to 0 to 1000 on x-axis
 - [x] Model 1: remove the vertices that aren't connected to the main chunk to make it connected
-- [ ] For Model 1, plot base against # of vertices
+- [x] For Model 1, plot base against # of vertices
     - [x] log(base) vs. # vertices: if original curve is exponential, this will be linear
     - [x] log(base) vs. log(# vertices): if original curve is polynomial, this will be linear
     - [x] base vs. log(# vertices): if original curve is logarithmic, this will be linear
     - (log base 2)
-- [ ] Running more trials with larger number of vertices (Model 2 and 3)
-    - [x] 15 minutes to add three 200 num vertices, three 400 num vertices, and three 600 # vertices for Model 2
+- [x] Running more trials with larger number of vertices (Model 2 and 3)
+    - [x] About an hour to add three 200 num vertices, three 400 num vertices, three 600 # vertices, and three 800 # vertices for Model 2
 - [ ] Spend 3 hours on how to merge parts of models together to get the properties we want
     - [x] Take delaunay triangulation and randomly remove some edges
 - [ ] Spend 1-3 hours writing
