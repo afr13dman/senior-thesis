@@ -346,7 +346,7 @@ plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
 plt.xlim(0, 1000)
 plt.legend(['real data','model 1', 'model 2', 'model 3', 'model 4', 'model 4b'])
-plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models_.png')
+plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models.png')
 plt.show()
 
 # PLOT REAL DATA AND MODELS SEPARATELY 
