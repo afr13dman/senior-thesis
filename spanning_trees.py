@@ -138,7 +138,7 @@ else:
 # Edit previous imported data to get only rand_seed and num_vertices
 new_df = df[["num_vertices", "rand_seed"]].drop_duplicates()
 
-new_vert = [200, 400, 600] #, 800] # , 10000, 12000, 14000, 16000, 18000, 20000, 25000]
+new_vert = [200, 400, 600, 800] # , 10000, 12000, 14000, 16000, 18000, 20000, 25000]
 for vert in new_vert:
     for seed in df["rand_seed"].unique()[0:3]:
         new_row = pd.DataFrame([{'num_vertices': vert, 'rand_seed': seed}])
@@ -297,7 +297,7 @@ else:
         graph = models.model_three_with_removal(nodes, rs, remove_prob)
 
         # calculate graph Laplacian
-        print('calculating model 4:', nodes, rs)
+        print('calculating model 4b:', nodes, rs)
         Lap = nx.laplacian_matrix(graph).toarray()
         T = np.delete(Lap,1,0)
         T = np.delete(T,1,1)
