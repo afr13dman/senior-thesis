@@ -143,3 +143,42 @@ def model_three(n, rand_seed):
                 G.add_edge(simplex[i], simplex[j])
 
     return G
+
+# Model 4
+def model_three_with_removal(n, rand_seed, remove_prob=0.2):
+    """
+    Create a graph based on Delaunay Triangulation, then randomly remove edges.
+
+    Function returns the graph.
+    """
+    G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    edges_to_remove = []
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                edge = (simplex[i], simplex[j])
+                if random.random() < remove_prob:
+                    edges_to_remove.append(edge)
+                else:
+                    G.add_edge(*edge)
+
+    # Remove edges
+    G.remove_edges_from(edges_to_remove)
+
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
+        
+        return G_sub
