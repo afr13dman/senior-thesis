@@ -139,8 +139,8 @@ else:
 new_df = df[["num_vertices", "rand_seed"]].drop_duplicates()
 
 new_vert = [200, 400, 600] #, 800] # , 10000, 12000, 14000, 16000, 18000, 20000, 25000]
-for seed in df["rand_seed"].unique()[0:3]:
-    for vert in new_vert:
+for vert in new_vert:
+    for seed in df["rand_seed"].unique()[0:3]:
         new_row = pd.DataFrame([{'num_vertices': vert, 'rand_seed': seed}])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
 
@@ -190,7 +190,7 @@ else:
 #  model 3  #
 #############
 
-file_paths = ['no'] #['pkls/num_nodes_m3.pkl', 'pkls/tree_const_m3.pkl', 'pkls/log_trees_m3.pkl']
+file_paths = ['pkls/num_nodes_m3.pkl', 'pkls/tree_const_m3.pkl', 'pkls/log_trees_m3.pkl']
 if check_file_paths(file_paths):
     with open('pkls/num_nodes_m3.pkl', 'rb') as f:
         num_nodes_m3 = pickle.load(f)
@@ -269,6 +269,51 @@ else:
     with open('pkls/log_trees_m4.pkl', 'wb') as f:
         pickle.dump(log_trees_m4, f)
 
+##############
+#  model 4b  #
+##############
+
+# Model 4 but choosing remove prob as 0.4 instead of default 0.2
+# Remove prob 0.5 made st constant a bit lower than real data
+# Remove prob 0.3 made st constant too high
+remove_prob = 0.4 # Seems best probability regarding spanning tree constant close to real data
+
+file_paths = ['pkls/num_nodes_m4b.pkl', 'pkls/tree_const_m4b.pkl', 'pkls/log_trees_m4b.pkl']
+if check_file_paths(file_paths):
+    with open('pkls/num_nodes_m4b.pkl', 'rb') as f:
+        num_nodes_m4b = pickle.load(f)
+    with open('pkls/tree_const_m4b.pkl', 'rb') as f:
+        tree_const_m4b = pickle.load(f)
+    with open('pkls/log_trees_m4b.pkl', 'rb') as f:
+        log_trees_m4b = pickle.load(f)
+else:
+    num_nodes_m4b = []
+    tree_const_m4b = []
+    log_trees_m4b = []
+
+    for index, row in new_df.iterrows():
+        nodes = int(row["num_vertices"])
+        rs = int(row["rand_seed"])
+        graph = models.model_three_with_removal(nodes, rs, remove_prob)
+
+        # calculate graph Laplacian
+        print('calculating model 4:', nodes, rs)
+        Lap = nx.laplacian_matrix(graph).toarray()
+        T = np.delete(Lap,1,0)
+        T = np.delete(T,1,1)
+        (sign, logabsdet) = slogdet(T)
+        if (sign == 1):
+            tree_const_m4b.append(np.exp(logabsdet/nodes))
+            num_nodes_m4b.append(nodes)
+            log_trees_m4b.append(logabsdet)
+    
+    # Save the lists as pickles so I do not have to run the code each time
+    with open('pkls/num_nodes_m4b.pkl', 'wb') as f:
+        pickle.dump(num_nodes_m4b, f)
+    with open('pkls/tree_const_m4b.pkl', 'wb') as f:
+        pickle.dump(tree_const_m4b, f)
+    with open('pkls/log_trees_m4b.pkl', 'wb') as f:
+        pickle.dump(log_trees_m4b, f)
 
 ###################################
 # plot st constant v num of nodes #
@@ -281,10 +326,11 @@ plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
 plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
 plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
 plt.scatter(num_nodes_m4, tree_const_m4, c=['m']*len(num_nodes_m4))
+plt.scatter(num_nodes_m4b, tree_const_m4b, c=['c']*len(num_nodes_m4b))
 plt.title('ST Constant vs Number of Nodes for Real Data')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
-plt.legend(['real data','model 1', 'model 2', 'model 3', 'model 4'])
+plt.legend(['real data','model 1', 'model 2', 'model 3', 'model 4', 'model 4b'])
 plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models.png')
 plt.show()
 
@@ -294,11 +340,12 @@ plt.scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
 plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
 plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
 plt.scatter(num_nodes_m4, tree_const_m4, c=['m']*len(num_nodes_m4))
+plt.scatter(num_nodes_m4b, tree_const_m4b, c=['c']*len(num_nodes_m4b))
 plt.title('ST Constant vs Number of Nodes for Real Data')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
 plt.xlim(0, 1000)
-plt.legend(['real data','model 1', 'model 2', 'model 3', 'model 4'])
+plt.legend(['real data','model 1', 'model 2', 'model 3', 'model 4', 'model 4b'])
 plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models_.png')
 plt.show()
 
