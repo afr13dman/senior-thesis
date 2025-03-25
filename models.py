@@ -182,3 +182,53 @@ def model_three_with_removal(n, rand_seed, remove_prob=0.2):
         G_sub = G.subgraph(largest_cc).copy()
         
         return G_sub
+    
+# Model 5
+def model_five(n, rand_seed, base=2):
+    """
+    Creates a graph with (5.4/2)n shortest edges and adds some probabilistic edges.
+    Basically a combination of model 2 and model 1.
+
+    Function returns the graph.
+    """
+    G = create_graph(n, rand_seed)
+
+    # Create a dictionary of all distances between points
+    dist_df = pd.DataFrame(columns=['node1', 'node2', 'distance'])
+    for i in range(0, n):
+        for j in range(i + 1, n):
+            u = (G.nodes[i]['x_axis'], G.nodes[i]['y_axis'])
+            v = (G.nodes[j]['x_axis'], G.nodes[j]['y_axis'])
+            distance = math.dist(u, v)
+            dist_df.loc[len(dist_df)] = [i, j, distance]
+
+    # Add the (5.4/2)n shortest edges
+    edges = int((5.4/2) * n)
+    dist_sorted = dist_df.sort_values("distance").head(edges)
+    for index, row in dist_sorted.iterrows():
+        i = row['node1']
+        j = row['node2']
+        G.add_edge(i, j)
+
+    # Add random edges based on the distance probability
+    for i in range(0, n):
+        for j in range(i + 1, n):
+            u = (G.nodes[i]['x_axis'], G.nodes[i]['y_axis'])
+            v = (G.nodes[j]['x_axis'], G.nodes[j]['y_axis'])
+            distance = math.dist(u, v)
+            prob = base ** (-distance)
+            r = random.random()
+            if r < prob:
+                G.add_edge(i, j)
+
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
+        
+        return G_sub
