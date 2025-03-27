@@ -138,9 +138,9 @@ else:
 # Edit previous imported data to get only rand_seed and num_vertices
 new_df = df[["num_vertices", "rand_seed"]].drop_duplicates()
 
-new_vert = [200, 400, 600, 800] # , 10000, 12000, 14000, 16000, 18000, 20000, 25000]
+new_vert = [200, 400, 600, 800, 10000, 12000, 14000, 16000, 18000, 20000, 25000]
 for vert in new_vert:
-    for seed in df["rand_seed"].unique()[0:3]:
+    for seed in df["rand_seed"].unique()[0:2]:
         new_row = pd.DataFrame([{'num_vertices': vert, 'rand_seed': seed}])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
 
