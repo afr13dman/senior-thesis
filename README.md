@@ -90,3 +90,29 @@ Now I zoomed in to better see how the spanning tree constant for the models chan
     - With remove probability of 0.4: ST cons is closer to real world data, but avg deg, med deg, and max deg much smaller.
 
 - Add Model 1 plots, maybe exponential but the log(base) vs. # of vertices doesn't exactly have a linear relationship, but it's the closests out of all the possibilities. Polynomial is the next closests.
+
+_03-25-2025_
+
+Move on from Model 1. Good starting point but too complicated to pin down and too much variability.
+
+CURRENT MODELS
+~~1. Base Probability~~
+2. Add (5.4/2)n shortest edges
+3. Delaunay Triangulation (DT)
+4. DT with random removal
+5. DT with random removal and random addition
+6. DT with adding shortest edges
+7. DT with adding shortest edges and removing longest edges
+8. Add (5.4/2)n shortest edges. Then add some more random edges.
+
+Which models take long to build?
+Model 2 and (6, 7, 8)
+- I think it's because we are sorting...?
+
+
+Things to consider for model 6 (and I guess 7): dt with adding shortest edges
+- How Many Edges to Add?
+    - Same as the number of vertices (n): This maintains a balance but may not be optimal for real-world dual graphs.
+    - A fraction of existing edges: For example, adding 0.5 * |E| more edges ensures we don’t drastically alter the structure.
+    - Based on degree distribution: Add edges until the average degree matches real-world dual graphs.
+    - Stop when the graph's max degree reaches a desired value: To better match empirical data.

@@ -59,9 +59,16 @@
     - (log base 2)
 - [x] Running more trials with larger number of vertices (Model 2 and 3)
     - [x] About an hour to add three 200 num vertices, three 400 num vertices, three 600 # vertices, and three 800 # vertices for Model 2
-- [ ] Spend 3 hours on how to merge parts of models together to get the properties we want
+- [x] Spend 3 hours on how to merge parts of models together to get the properties we want
     - [x] Take delaunay triangulation and randomly remove some edges
-- [ ] Spend 1-3 hours writing
+
+## Week 9
+- [ ] time.time to get clock time for model 2 to see what is running long
+- [x] Delaunay triangulation add more shortest edges, but will probably be too many spanning trees
+- [ ] DT but remove longest edges or only smallest edges
+- [x] DT add shortest edges and remove longest edges
+- [x] DT remove random edges and add random edges
+- [ ] Spend 1-3 hours writing: EXPLAIN DUAL GRAPHS AND MODELS
     - Write, don't try to be perfect
     - Break it down into small chunks: write for 15 minutes, take a break, and then see what is achievable
     - Take frequent breaks
