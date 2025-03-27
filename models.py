@@ -145,7 +145,7 @@ def model_three(n, rand_seed):
     return G
 
 # Model 4
-def model_three_with_removal(n, rand_seed, remove_prob=0.2):
+def model_dt_with_removal(n, rand_seed, remove_prob=0.2):
     """
     Create a graph based on Delaunay Triangulation, then randomly remove edges.
 
@@ -182,16 +182,78 @@ def model_three_with_removal(n, rand_seed, remove_prob=0.2):
         G_sub = G.subgraph(largest_cc).copy()
         
         return G_sub
-    
+
 # Model 5
-def model_five(n, rand_seed, base=10):
+def model_dt_with_removal_and_add(n, rand_seed, remove_prob=0.2, add_prob=0.05):
     """
-    Creates a graph with (5.4/2)n shortest edges and adds some probabilistic edges.
-    Basically a combination of model 2 and model 1.
+    Create a graph based on Delaunay Triangulation.
+    Then randomly remove edges and randomly add edges.
 
     Function returns the graph.
     """
     G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    edges_to_remove = []
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                edge = (simplex[i], simplex[j])
+                if random.random() < remove_prob:
+                    edges_to_remove.append(edge)
+                else:
+                    G.add_edge(*edge)
+
+    # Remove edges
+    G.remove_edges_from(edges_to_remove)
+
+    # Try adding new edges
+    nodes = list(G.nodes())
+    num_nodes = len(nodes)
+    for _ in range(int(add_prob * num_nodes * (num_nodes - 1) / 2)):  # Limit number of new edges
+        u, v = random.sample(nodes, 2)  # Pick two random nodes
+        if not G.has_edge(u, v):  # Ensure edge doesn't already exist
+            distance = math.dist((G.nodes[u]['x_axis'], G.nodes[u]['y_axis']),
+                                 (G.nodes[v]['x_axis'], G.nodes[v]['y_axis']))
+            if random.random() < (1.5 ** -distance):  # Distance-based probability
+                G.add_edge(u, v)
+
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
+        
+        return G_sub
+
+# Model 6
+def model_dt_add_short_edges(n, rand_seed):
+    """
+    Creates a graph based on Delaunay Triangulation of the vertices.
+    Then adds some of the shortest edges.
+
+    Function returns the graph.
+    """
+    # Create graph
+    G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute the Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                G.add_edge(simplex[i], simplex[j])
 
     # Create a dictionary of all distances between points
     dist_df = pd.DataFrame(columns=['node1', 'node2', 'distance'])
@@ -201,14 +263,67 @@ def model_five(n, rand_seed, base=10):
             v = (G.nodes[j]['x_axis'], G.nodes[j]['y_axis'])
             distance = math.dist(u, v)
             dist_df.loc[len(dist_df)] = [i, j, distance]
-
-    # Add the (5.4/2)n shortest edges
-    edges = int((5.4/2) * n)
-    dist_sorted = dist_df.sort_values("distance").head(edges)
+    
+    # Add the next n shortest edges that aren't yet in the graph
+    edges = n
+    dist_sorted = dist_df.sort_values("distance")
     for index, row in dist_sorted.iterrows():
         i = row['node1']
         j = row['node2']
-        G.add_edge(i, j)
+        if not G.has_edge(i, j):
+            G.add_edge(i, j)
+            edges -= 1
+        if edges == 0:
+            return G
+    
+    return G
+
+# Model 7
+def model_dt_add_short_remove_long(n, rand_seed, remove_fraction=0.2):
+    """
+    Creates a graph based on Delaunay Triangulation of the vertices,
+    adds some of the shortest edges and removes a fraction of the longest ones.
+
+    Function returns the modified graph.
+    """
+    G = model_dt_add_short_edges(n, rand_seed)  # Start with Model 6
+
+    # Collect all edges with distances
+    edge_list = [(u, v, math.dist((G.nodes[u]['x_axis'], G.nodes[u]['y_axis']),
+                                  (G.nodes[v]['x_axis'], G.nodes[v]['y_axis']))) 
+                 for u, v in G.edges()]
+    
+    # Sort by distance (longest first)
+    edge_list.sort(key=lambda x: x[2], reverse=True)
+
+    # Remove a fraction of longest edges
+    num_to_remove = int(len(edge_list) * remove_fraction)
+    edges_to_remove = edge_list[:num_to_remove]
+    G.remove_edges_from([(u, v) for u, v, _ in edges_to_remove])
+
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
+        
+        return G_sub
+
+# Model 8
+def model_eight(n, rand_seed):
+    """
+    Creates a graph with (5.4/2)n shortest edges and adds some probabilistic edges.
+
+    Function returns the graph.
+    """
+    G = create_graph(n, rand_seed)
+
+    # Add the (5.4/2)n shortest edges
+    edges = int((5.4/2) * n)
 
     # Add random edges based on the distance probability
     for i in range(0, n):
@@ -218,9 +333,7 @@ def model_five(n, rand_seed, base=10):
 
             if not G.has_edge(i, j):
                 distance = math.dist(u, v)
-                prob = base ** (-distance)
-                r = random.random()
-                if r < prob:
+                if random.random() < (1.5 ** -distance):  # Distance-based probability
                     G.add_edge(i, j)
 
     # Check for connected components

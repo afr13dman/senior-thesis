@@ -86,59 +86,15 @@ else:
     with open('pkls/log_trees_real.pkl', 'wb') as f:
         pickle.dump(log_trees_real, f)
 
-#############
-#  model 1  #
-#############
+#################
+#  Import Data  #
+#################
 
 # Import data to get rand_seed, num_vertices, and prob base
 df = pd.read_excel("model_one_results.xlsx", sheet_name="5.4", skiprows=2)
-
-file_paths = ['pkls/num_nodes_m1.pkl', 'pkls/tree_const_m1.pkl', 'pkls/log_trees_m1.pkl']
-if check_file_paths(file_paths):
-    with open('pkls/num_nodes_m1.pkl', 'rb') as f:
-        num_nodes_m1 = pickle.load(f)
-    with open('pkls/tree_const_m1.pkl', 'rb') as f:
-        tree_const_m1 = pickle.load(f)
-    with open('pkls/log_trees_m1.pkl', 'rb') as f:
-        log_trees_m1 = pickle.load(f)
-else:
-    num_nodes_m1 = []
-    tree_const_m1 = []
-    log_trees_m1 = []
-
-    for index, row in df.iterrows():
-        nodes = int(row["num_vertices"])
-        rs = int(row["rand_seed"])
-        base = int(row["prob_base_num"])
-        graph = models.model_one(nodes, rs, base)
-
-        # calculate graph Laplacian
-        print('calculating model 1:', nodes, rs, base)
-        Lap = nx.laplacian_matrix(graph).toarray()
-        T = np.delete(Lap,1,0)
-        T = np.delete(T,1,1)
-        (sign, logabsdet) = slogdet(T)
-        if (sign == 1):
-            tree_const_m1.append(logabsdet/nodes)
-            num_nodes_m1.append(nodes)
-            log_trees_m1.append(logabsdet)
-
-    # Save the lists as pickles so I do not have to run the code each time
-    with open('pkls/num_nodes_m1.pkl', 'wb') as f:
-        pickle.dump(num_nodes_m1, f)
-    with open('pkls/tree_const_m1.pkl', 'wb') as f:
-        pickle.dump(tree_const_m1, f)
-    with open('pkls/log_trees_m1.pkl', 'wb') as f:
-        pickle.dump(log_trees_m1, f)
-
-###############
-# Update Data #
-###############
-
-# Edit previous imported data to get only rand_seed and num_vertices
 new_df = df[["num_vertices", "rand_seed"]].drop_duplicates()
 
-new_vert = [200, 400, 600, 800, 10000, 12000, 14000, 16000, 18000, 20000, 25000]
+new_vert = [200, 400, 600] #, 800, 10000, 12000, 14000, 16000, 18000, 20000, 25000]
 for vert in new_vert:
     for seed in df["rand_seed"].unique()[0:2]:
         new_row = pd.DataFrame([{'num_vertices': vert, 'rand_seed': seed}])
@@ -314,7 +270,7 @@ else:
         pickle.dump(tree_const_m4b, f)
     with open('pkls/log_trees_m4b.pkl', 'wb') as f:
         pickle.dump(log_trees_m4b, f)
-
+    
 ###################################
 # plot st constant v num of nodes #
 ###################################
