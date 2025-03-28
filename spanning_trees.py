@@ -83,12 +83,57 @@ else:
         pickle.dump(log_trees_real, f)
 
 
-#################
-#  Import Data  #
-#################
+#############
+#  model 1  #
+#############
 
-# Import data to get rand_seed and num_vertices
-df = pd.read_excel("model_one_results.xlsx", sheet_name="5.4", skiprows=2)
+# Import data to get rand_seed, num_vertices, and prob base
+df = pd.read_csv("model_one_desired_avg_deg.csv")
+
+file_paths = ['pkls/num_nodes_m1.pkl', 'pkls/tree_const_m1.pkl', 'pkls/log_trees_m1.pkl']
+if check_file_paths(file_paths):
+    with open('pkls/num_nodes_m1.pkl', 'rb') as f:
+        num_nodes_m1 = pickle.load(f)
+    with open('pkls/tree_const_m1.pkl', 'rb') as f:
+        tree_const_m1 = pickle.load(f)
+    with open('pkls/log_trees_m1.pkl', 'rb') as f:
+        log_trees_m1 = pickle.load(f)
+else:
+    num_nodes_m1 = []
+    tree_const_m1 = []
+    log_trees_m1 = []
+
+    for index, row in df.iterrows():
+        nodes = int(row["num_vertices"])
+        rs = int(row["rand_seed"])
+        base = int(row["prob_base_num"])
+        graph = models.model_one(nodes, rs, base)
+
+        # calculate graph Laplacian
+        print('calculating model 1:', nodes, rs, base)
+        Lap = nx.laplacian_matrix(graph).toarray()
+        T = np.delete(Lap,1,0)
+        T = np.delete(T,1,1)
+        (sign, logabsdet) = slogdet(T)
+        if (sign == 1):
+            tree_const_m1.append(logabsdet/nodes)
+            num_nodes_m1.append(nodes)
+            log_trees_m1.append(logabsdet)
+
+    # Save the lists as pickles so I do not have to run the code each time
+    with open('pkls/num_nodes_m1.pkl', 'wb') as f:
+        pickle.dump(num_nodes_m1, f)
+    with open('pkls/tree_const_m1.pkl', 'wb') as f:
+        pickle.dump(tree_const_m1, f)
+    with open('pkls/log_trees_m1.pkl', 'wb') as f:
+        pickle.dump(log_trees_m1, f)
+
+
+###############
+# Update Data #
+###############
+
+# Edit previous imported data to get only rand_seed and num_vertices
 new_df = df[["num_vertices", "rand_seed"]].drop_duplicates()
 
 new_vert = [200, 400, 600] #, 800, 10000, 12000, 14000, 16000, 18000, 20000, 25000]
@@ -522,4 +567,30 @@ plt.xlim(0, 1000)
 plt.legend(['real data', 'model 2', 'model 3', 'model 4', 'model 4b',
             'model 5', 'model 5b', 'model 6', 'model 7', 'model 8'])
 plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models.png')
+plt.show()
+
+
+# Plot Real Data and Model 1
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# First subplot: Original plot
+axes[0].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+axes[0].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+axes[0].set_title('ST Constant vs Number of Nodes for Real Data')
+axes[0].set_xlabel('Number of Nodes')
+axes[0].set_ylabel('ST Constant')
+axes[0].legend(['real data', 'model 1'])
+
+# Second subplot: Same plot with xlim(0, 1000)
+axes[1].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+axes[1].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+axes[1].set_title('ST Constant vs Number of Nodes (xlim=1000)')
+axes[1].set_xlabel('Number of Nodes')
+axes[1].set_ylabel('ST Constant')
+axes[1].set_xlim(0, 1000)
+axes[1].legend(['real data', 'model 1'])
+
+# Adjust layout and show plot
+plt.tight_layout()
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model1.png')
 plt.show()
