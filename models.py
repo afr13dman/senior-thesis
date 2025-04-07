@@ -314,28 +314,59 @@ def model_dt_add_short_remove_long(n, rand_seed, remove_fraction=0.2):
         return G_sub
 
 # Model 8
-def model_eight(n, rand_seed):
+def model_eight(n, rand_seed, scaling_factor=0.5, remove_prob=0.6):
     """
-    Creates a graph with (5.4/2)n shortest edges and adds some probabilistic edges.
+    Creates a graph based on Delaunay Triangulation of the vertices,
+    add edges via preferential attachment.
 
     Function returns the graph.
     """
     G = create_graph(n, rand_seed)
 
-    # Add the (5.4/2)n shortest edges
-    edges = int((5.4/2) * n)
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
 
-    # Add random edges based on the distance probability
-    for i in range(0, n):
-        for j in range(i + 1, n):
-            u = (G.nodes[i]['x_axis'], G.nodes[i]['y_axis'])
-            v = (G.nodes[j]['x_axis'], G.nodes[j]['y_axis'])
+    # Compute the Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    edges_to_remove = []
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                edge = (simplex[i], simplex[j])
+                if random.random() < remove_prob:
+                    edges_to_remove.append(edge)
+                else:
+                    G.add_edge(*edge)
 
-            if not G.has_edge(i, j):
-                distance = math.dist(u, v)
-                if random.random() < (1.5 ** -distance):  # Distance-based probability
-                    G.add_edge(i, j)
+    # Remove edges
+    G.remove_edges_from(edges_to_remove)
+                
+    # Define number of new edges based on scaling factor
+    num_new_edges = int(scaling_factor * n)
 
+    # Adds edges via preferential attachment 
+    degrees = np.array([G.degree(n) for n in G.nodes()])
+    node_list = list(G.nodes())
+    
+    for _ in range(num_new_edges):
+        # Select a random node
+        node1 = random.choice(node_list)
+        
+        # Compute preferential probabilities
+        degree_sum = degrees.sum()
+        probabilities = degrees / degree_sum if degree_sum > 0 else np.ones(len(degrees)) / len(degrees)
+        
+        # Select another node with probability proportional to its degree
+        node2 = np.random.choice(node_list, p=probabilities)
+        
+        # Avoid self-loops and duplicate edges
+        if node1 != node2 and not G.has_edge(node1, node2):
+            G.add_edge(node1, node2)
+            
+            # Update degrees array
+            degrees[node_list.index(node1)] += 1
+            degrees[node_list.index(node2)] += 1
+    
     # Check for connected components
     if nx.is_connected(G):
         return G
@@ -347,3 +378,120 @@ def model_eight(n, rand_seed):
         G_sub = G.subgraph(largest_cc).copy()
         
         return G_sub
+
+
+# Model 9
+def model_dt_with_removal_add_shortest_edges(n, rand_seed, remove_prob=0.2):
+    """
+    Create a graph based on Delaunay Triangulation, then randomly remove edges,
+    next add shortest edges.
+
+    Function returns the graph.
+    """
+    G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    edges_to_remove = []
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                edge = (simplex[i], simplex[j])
+                if random.random() < remove_prob:
+                    edges_to_remove.append(edge)
+                else:
+                    G.add_edge(*edge)
+
+    # Remove edges
+    G.remove_edges_from(edges_to_remove)
+    
+    # Create a dictionary of all distances between points
+    dist_df = pd.DataFrame(columns=['node1', 'node2', 'distance'])
+    for i in range(0, n):
+        for j in range(i + 1, n):
+            u = (G.nodes[i]['x_axis'], G.nodes[i]['y_axis'])
+            v = (G.nodes[j]['x_axis'], G.nodes[j]['y_axis'])
+            distance = math.dist(u, v)
+            dist_df.loc[len(dist_df)] = [i, j, distance]
+    
+    # Add the next n shortest edges that aren't yet in the graph
+    edges = n
+    dist_sorted = dist_df.sort_values("distance")
+    for index, row in dist_sorted.iterrows():
+        i = row['node1']
+        j = row['node2']
+        if not G.has_edge(i, j):
+            G.add_edge(i, j)
+            edges -= 1
+        if edges == 0:
+            # Check for connected components
+            if nx.is_connected(G):
+                return G
+            else:
+                # Find the largest connected component
+                largest_cc = max(nx.connected_components(G), key=len)
+                
+                # Create a subgraph of the largest connected component
+                G_sub = G.subgraph(largest_cc).copy()
+                return G_sub
+
+
+# Model 10
+def model_dt_add_shortest_edges_remove_rand(n, rand_seed, remove_prob=0.2):
+    """
+    Create a graph based on Delaunay Triangulation, add shortest edges, then randomly remove edges.
+
+    Function returns the graph.
+    """
+    G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                G.add_edge(simplex[i], simplex[j])
+
+    # Create a dictionary of all distances between points
+    dist_df = pd.DataFrame(columns=['node1', 'node2', 'distance'])
+    for i in range(0, n):
+        for j in range(i + 1, n):
+            u = (G.nodes[i]['x_axis'], G.nodes[i]['y_axis'])
+            v = (G.nodes[j]['x_axis'], G.nodes[j]['y_axis'])
+            distance = math.dist(u, v)
+            dist_df.loc[len(dist_df)] = [i, j, distance]
+    
+    # Add the next n shortest edges that aren't yet in the graph
+    edges = n
+    dist_sorted = dist_df.sort_values("distance")
+    for index, row in dist_sorted.iterrows():
+        i = row['node1']
+        j = row['node2']
+        if not G.has_edge(i, j):
+            G.add_edge(i, j)
+            edges -= 1
+        if edges == 0:
+            # Remove Edges    
+            edges_to_remove = []
+            for edge in G.edges():
+                if random.random() < remove_prob:
+                    edges_to_remove.append(edge)
+
+            G.remove_edges_from(edges_to_remove)
+
+            # Check for connected components
+            if nx.is_connected(G):
+                return G
+            else:
+                # Find the largest connected component
+                largest_cc = max(nx.connected_components(G), key=len)
+                
+                # Create a subgraph of the largest connected component
+                G_sub = G.subgraph(largest_cc).copy()
+                return G_sub
