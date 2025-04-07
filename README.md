@@ -103,16 +103,33 @@ CURRENT MODELS
 5. DT with random removal and random addition
 6. DT with adding shortest edges
 7. DT with adding shortest edges and removing longest edges
-8. Add (5.4/2)n shortest edges. Then add some more random edges.
+~~8. Add (5.4/2)n shortest edges. Then add some more random edges.~~
 
 Which models take long to build?
 Model 2 and (6, 7, 8)
 - I think it's because we are sorting...?
 
+Model 6 and 7: How many shortest edges should I add? How many longest edges should I add?
+Model 7 has lower spanning tree constant bc it is balancing out adding edges by removing some. How can I get it lower?
+Model 5 I think is a bust because it increases exponentially...
 
-Things to consider for model 6 (and I guess 7): dt with adding shortest edges
-- How Many Edges to Add?
-    - Same as the number of vertices (n): This maintains a balance but may not be optimal for real-world dual graphs.
-    - A fraction of existing edges: For example, adding 0.5 * |E| more edges ensures we don’t drastically alter the structure.
-    - Based on degree distribution: Add edges until the average degree matches real-world dual graphs.
-    - Stop when the graph's max degree reaches a desired value: To better match empirical data.
+_04-05-2025_
+
+Play around with adding shortest edges, removing random edges, and removing longest edges.
+
+Does random edge affect degree more than st cons and longest edges affect st cons more than degree? Those things are good to know.
+
+4. DT with random removal
+7. DT with adding shortest edges and removing longest edges
+8. DT and adding edges via preferential attachment
+    - Could also use different scaling factors
+9. DT with random removal and adding shortest edges
+10. DT with adding shortest edges and random removal (how does order impact)
+
+9b < 10b < 10 < 9 in ST CONS where 9/10 is with removal prob 0.2 and b with 0.4
+So you get lower st cons if you add edges and then remove.
+All still too high
+
+10 has slightly higher degrees than 9
+
+7 vs 10: 7 has higher degrees (almost too high) and 10b < 7 < 10 for st cons.

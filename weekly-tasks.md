@@ -68,7 +68,14 @@
 - [ ] DT but remove longest edges or only smallest edges
 - [x] DT add shortest edges and remove longest edges
 - [x] DT remove random edges and add random edges
-- [ ] Spend 1-3 hours writing: EXPLAIN DUAL GRAPHS AND MODELS
+- [x] Spend 1-3 hours writing: EXPLAIN DUAL GRAPHS AND MODELS
     - Write, don't try to be perfect
     - Break it down into small chunks: write for 15 minutes, take a break, and then see what is achievable
     - Take frequent breaks
+
+## Week 10
+- [x] preferential attachment to add edges to high degree vertices (trying to up max degree on some nodes)
+    - [x] but then added random removal to bring it back down
+- [ ] try amending model 4 and 7 to be like remove random edges and then add shortest edges, or play around with adding shortest edges, removing random edges, and removing longest edges. And how each of those affect degrees vs st cons. Does random edge affect degree more than st cons and longest edges affect st cons more than degree? Those things are good to know.
+- [ ] work on written dual graph section
+- [ ] introduction: why are we doing this and does do we care?
