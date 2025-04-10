@@ -495,3 +495,61 @@ def model_dt_add_shortest_edges_remove_rand(n, rand_seed, remove_prob=0.2):
                 # Create a subgraph of the largest connected component
                 G_sub = G.subgraph(largest_cc).copy()
                 return G_sub
+
+
+# Model 11
+def model_two_rand_removal(n, rand_seed, scaling_factor=6.8, remove_prob=0.2):
+    """
+    Creates a graph with only the (5.4n) shortest edges
+    where n is the number of vertices in the graph
+    and rand_seed is the random seed used to generate the points.
+    Then randomly remove points
+
+    Function returns the graph.
+    """
+
+    # Create graph
+    G = create_graph(n, rand_seed)
+
+    # Create a dictionary of all distances between points
+    dist_df = pd.DataFrame(columns = ['node1', 'node2', 'distance'])
+    for i in range(0, n): # Go from 0 to n-1
+        for j in range(i+1, n): # Go from i+1 to n-1
+            u = (G.nodes()[i]['x_axis'], G.nodes()[i]['y_axis'])
+            v = (G.nodes()[j]['x_axis'], G.nodes()[j]['y_axis'])
+
+            # Find distance between points
+            distance = math.dist(u, v)
+
+            # Add it to the dataframe
+            dist_df.loc[len(dist_df)] = [i, j, distance]
+    
+    # for model 11 scaling_factor 6.8, removal 0.2
+    # for model 11b scaling_factor 9, removal 0.4
+    # for model 11c scaling_factor 14, removal 0.6
+    edges = int((scaling_factor/2) * n) 
+    dist_sorted = dist_df.sort_values("distance").head(edges)
+    for index, row in dist_sorted.iterrows():
+        i = row['node1']
+        j = row['node2']
+        G.add_edge(i, j)
+    
+    # Remove Edges    
+    edges_to_remove = []
+    for edge in G.edges():
+        if random.random() < remove_prob:
+            edges_to_remove.append(edge)
+
+    G.remove_edges_from(edges_to_remove)
+    
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
+        
+        return G_sub

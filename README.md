@@ -133,3 +133,16 @@ All still too high
 10 has slightly higher degrees than 9
 
 7 vs 10: 7 has higher degrees (almost too high) and 10b < 7 < 10 for st cons.
+
+_04-09-2025_
+
+Model 5 with remove_prob=0.8, add_prob=0.05 gives
+planar         0.46
+connected      1.00
+avg_deg        9.00
+median_deg     8.82
+max_deg       15.74
+avg_st_con     1.13
+So I don't think there is a way to make it work bc right now st cons is too low but avg deg is too high.
+
+Currently getting Model 2 revamped (with random removal) --> Model 11 close to Real Data

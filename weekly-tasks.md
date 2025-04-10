@@ -76,6 +76,6 @@
 ## Week 10
 - [x] preferential attachment to add edges to high degree vertices (trying to up max degree on some nodes)
     - [x] but then added random removal to bring it back down
-- [ ] try amending model 4 and 7 to be like remove random edges and then add shortest edges, or play around with adding shortest edges, removing random edges, and removing longest edges. And how each of those affect degrees vs st cons. Does random edge affect degree more than st cons and longest edges affect st cons more than degree? Those things are good to know.
+- [x] try amending model 4 and 7 to be like remove random edges and then add shortest edges, or play around with adding shortest edges, removing random edges, and removing longest edges. And how each of those affect degrees vs st cons. Does random edge affect degree more than st cons and longest edges affect st cons more than degree? Those things are good to know.
 - [ ] work on written dual graph section
 - [ ] introduction: why are we doing this and does do we care?
