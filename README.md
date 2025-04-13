@@ -121,8 +121,7 @@ Does random edge affect degree more than st cons and longest edges affect st con
 
 4. DT with random removal
 7. DT with adding shortest edges and removing longest edges
-8. DT and adding edges via preferential attachment
-    - Could also use different scaling factors
+8. DT with random removal and adding edges via preferential attachment
 9. DT with random removal and adding shortest edges
 10. DT with adding shortest edges and random removal (how does order impact)
 
@@ -146,3 +145,21 @@ avg_st_con     1.13
 So I don't think there is a way to make it work bc right now st cons is too low but avg deg is too high.
 
 Currently getting Model 2 revamped (with random removal) --> Model 11 close to Real Data
+
+Model 8 is also pretty close
+scaling_factor=0.3, remove_prob=0.05
+planar        0.00
+connected     1.00
+avg_deg       5.44
+median_deg    5.40
+#max_deg       9.64
+avg_st_con    1.43
+
+
+scaling_factor=0.9, remove_prob=0.2
+planar         0.00
+connected      1.00
+avg_deg        5.12
+median_deg     4.94
+max_deg       10.69
+avg_st_con     1.33
