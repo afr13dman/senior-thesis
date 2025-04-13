@@ -844,7 +844,7 @@ plt.show()
 
 # Plot Real Data and Model 2
 plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-plt.scatter(num_nodes_m2, tree_const_m2, c=['g']*len(num_nodes_m2))
+plt.scatter(num_nodes_m2, tree_const_m2, c=['darkgreen']*len(num_nodes_m2))
 plt.title('ST Constant vs Number of Nodes')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
