@@ -314,10 +314,10 @@ def model_dt_add_short_remove_long(n, rand_seed, remove_fraction=0.2):
         return G_sub
 
 # Model 8
-def model_eight(n, rand_seed, scaling_factor=0.5, remove_prob=0.6):
+def model_eight(n, rand_seed, scaling_factor=0.3, remove_prob=0.05):
     """
     Creates a graph based on Delaunay Triangulation of the vertices,
-    add edges via preferential attachment.
+    then removed edges randomly and add edges via preferential attachment.
 
     Function returns the graph.
     """
