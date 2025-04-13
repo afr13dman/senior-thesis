@@ -733,71 +733,114 @@ else:
     with open('pkls/log_trees_m10b.pkl', 'wb') as f:
         pickle.dump(log_trees_m10b, f)
 
+##############
+#  model 11  #
+##############
+
+file_paths = ['pkls/num_nodes_m11.pkl', 'pkls/tree_const_m11.pkl', 'pkls/log_trees_m11.pkl']
+if check_file_paths(file_paths):
+    with open('pkls/num_nodes_m11.pkl', 'rb') as f:
+        num_nodes_m11 = pickle.load(f)
+    with open('pkls/tree_const_m11.pkl', 'rb') as f:
+        tree_const_m11 = pickle.load(f)
+    with open('pkls/log_trees_m11.pkl', 'rb') as f:
+        log_trees_m11 = pickle.load(f)
+else:
+    pass
+
+###############
+#  model 11b  #
+###############
+
+file_paths = ['pkls/num_nodes_m11b.pkl', 'pkls/tree_const_m11b.pkl', 'pkls/log_trees_m11b.pkl']
+if check_file_paths(file_paths):
+    with open('pkls/num_nodes_m11b.pkl', 'rb') as f:
+        num_nodes_m11b = pickle.load(f)
+    with open('pkls/tree_const_m11b.pkl', 'rb') as f:
+        tree_const_m11b = pickle.load(f)
+    with open('pkls/log_trees_m11b.pkl', 'rb') as f:
+        log_trees_m11b = pickle.load(f)
+else:
+    pass
+
+###############
+#  model 11c  #
+###############
+
+file_paths = ['pkls/num_nodes_m11c.pkl', 'pkls/tree_const_m11c.pkl', 'pkls/log_trees_m11c.pkl']
+if check_file_paths(file_paths):
+    with open('pkls/num_nodes_m11c.pkl', 'rb') as f:
+        num_nodes_m11c = pickle.load(f)
+    with open('pkls/tree_const_m11c.pkl', 'rb') as f:
+        tree_const_m11c = pickle.load(f)
+    with open('pkls/log_trees_m11c.pkl', 'rb') as f:
+        log_trees_m11c = pickle.load(f)
+else:
+    pass
+
 ###################################
 # plot st constant v num of nodes #
 ###################################
 
 # PLOT AGAINST EACH OTHER
 
-plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
-plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
-plt.scatter(num_nodes_m8, tree_const_m8, c=['g']*len(num_nodes_m8))
-#plt.scatter(num_nodes_m8b, tree_const_m8b, c=['y']*len(num_nodes_m8b))
-plt.scatter(num_nodes_m9, tree_const_m9, c=['tab:red']*len(num_nodes_m9))
-plt.scatter(num_nodes_m9b, tree_const_m9b, c=['tab:pink']*len(num_nodes_m9b))
-plt.scatter(num_nodes_m10, tree_const_m10, c=['m']*len(num_nodes_m10))
-plt.scatter(num_nodes_m10b, tree_const_m10b, c=['tab:purple']*len(num_nodes_m10b))
-plt.title('ST Constant vs Number of Nodes for Real Data')
-plt.xlabel('Number of Nodes')
-plt.ylabel('ST Constant')
-plt.legend(['real data', 'model 6', 'model 7', 'model 8', 'model 9', 'model 9b', 'model 10', 'model 10b'])
-plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models.png')
-plt.show()
+# plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+# plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
+# plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
+# plt.scatter(num_nodes_m8, tree_const_m8, c=['g']*len(num_nodes_m8))
+# plt.scatter(num_nodes_m9, tree_const_m9, c=['tab:red']*len(num_nodes_m9))
+# plt.scatter(num_nodes_m9b, tree_const_m9b, c=['tab:pink']*len(num_nodes_m9b))
+# plt.scatter(num_nodes_m10, tree_const_m10, c=['m']*len(num_nodes_m10))
+# plt.scatter(num_nodes_m10b, tree_const_m10b, c=['tab:purple']*len(num_nodes_m10b))
+# plt.title('ST Constant vs Number of Nodes for Real Data')
+# plt.xlabel('Number of Nodes')
+# plt.ylabel('ST Constant')
+# plt.legend(['real data', 'model 6', 'model 7', 'model 8', 'model 9', 'model 9b', 'model 10', 'model 10b'])
+# plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models.png')
+# plt.show()
 
-# Zoom in
-plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
-plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
-plt.scatter(num_nodes_m8, tree_const_m8, c=['g']*len(num_nodes_m8))
-#plt.scatter(num_nodes_m8b, tree_const_m8b, c=['y']*len(num_nodes_m8b))
-plt.scatter(num_nodes_m9, tree_const_m9, c=['tab:red']*len(num_nodes_m9))
-plt.scatter(num_nodes_m9b, tree_const_m9b, c=['tab:pink']*len(num_nodes_m9b))
-plt.scatter(num_nodes_m10, tree_const_m10, c=['m']*len(num_nodes_m10))
-plt.scatter(num_nodes_m10b, tree_const_m10b, c=['tab:purple']*len(num_nodes_m10b))
-plt.title('ST Constant vs Number of Nodes for Real Data')
-plt.xlabel('Number of Nodes')
-plt.ylabel('ST Constant')
-plt.xlim(0, 1000)
-plt.legend(['real data', 'model 6', 'model 7', 'model 8', 'model 9', 'model 9b', 'model 10', 'model 10b'])
-plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models.png')
-plt.show()
+# # Zoom in
+# plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+# plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
+# plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
+# plt.scatter(num_nodes_m8, tree_const_m8, c=['g']*len(num_nodes_m8))
+# plt.scatter(num_nodes_m9, tree_const_m9, c=['tab:red']*len(num_nodes_m9))
+# plt.scatter(num_nodes_m9b, tree_const_m9b, c=['tab:pink']*len(num_nodes_m9b))
+# plt.scatter(num_nodes_m10, tree_const_m10, c=['m']*len(num_nodes_m10))
+# plt.scatter(num_nodes_m10b, tree_const_m10b, c=['tab:purple']*len(num_nodes_m10b))
+# plt.title('ST Constant vs Number of Nodes for Real Data')
+# plt.xlabel('Number of Nodes')
+# plt.ylabel('ST Constant')
+# plt.xlim(0, 1000)
+# plt.legend(['real data', 'model 6', 'model 7', 'model 8', 'model 9', 'model 9b', 'model 10', 'model 10b'])
+# plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models.png')
+# plt.show()
 
 
 # Plot Real Data and Model 1
-# fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-# # First subplot: Original plot
-# axes[0].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-# axes[0].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
-# axes[0].set_title('ST Constant vs Number of Nodes for Real Data')
-# axes[0].set_xlabel('Number of Nodes')
-# axes[0].set_ylabel('ST Constant')
-# axes[0].legend(['real data', 'model 1'])
+# First subplot: Original plot
+axes[0].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+axes[0].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+axes[0].set_title('ST Constant vs Number of Nodes for Real Data')
+axes[0].set_xlabel('Number of Nodes')
+axes[0].set_ylabel('ST Constant')
+axes[0].legend(['real data', 'model 1'])
 
-# # Second subplot: Same plot with xlim(0, 1000)
-# axes[1].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-# axes[1].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
-# axes[1].set_title('ST Constant vs Number of Nodes (xlim=1000)')
-# axes[1].set_xlabel('Number of Nodes')
-# axes[1].set_ylabel('ST Constant')
-# axes[1].set_xlim(0, 1000)
-# axes[1].legend(['real data', 'model 1'])
+# Second subplot: Same plot with xlim(0, 1000)
+axes[1].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+axes[1].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
+axes[1].set_title('ST Constant vs Number of Nodes (xlim=1000)')
+axes[1].set_xlabel('Number of Nodes')
+axes[1].set_ylabel('ST Constant')
+axes[1].set_xlim(0, 1000)
+axes[1].legend(['real data', 'model 1'])
 
-# # Adjust layout and show plot
-# plt.tight_layout()
-# plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model1.png')
-# plt.show()
+# Adjust layout and show plot
+plt.tight_layout()
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model1.png')
+plt.show()
 
 # Plot Real Data and Model 2
 plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
@@ -822,7 +865,7 @@ plt.show()
 # Plot Real Data and Model 4
 plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
 plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
-plt.scatter(num_nodes_m4, tree_const_m4, c=['m']*len(num_nodes_m4))
+plt.scatter(num_nodes_m4, tree_const_m4, c=['indigo']*len(num_nodes_m4))
 plt.scatter(num_nodes_m4b, tree_const_m4b, c=['tab:purple']*len(num_nodes_m4b))
 plt.title('ST Constant vs Number of Nodes')
 plt.xlabel('Number of Nodes')
@@ -833,13 +876,12 @@ plt.show()
 
 # Plot Real Data and Model 5
 plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-plt.scatter(num_nodes_m3, tree_const_m3, c=['y']*len(num_nodes_m3))
+plt.scatter(num_nodes_m3, tree_const_m3, c=['cornflowerblue']*len(num_nodes_m3))
 plt.scatter(num_nodes_m5, tree_const_m5, c=['r']*len(num_nodes_m5))
 plt.scatter(num_nodes_m5b, tree_const_m5b, c=['tab:pink']*len(num_nodes_m5b))
 plt.title('ST Constant vs Number of Nodes')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
-plt.xlim(0, 1000)
 plt.legend(['real data', 'model 3', 'model 5', 'model 5b'])
 plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model5.png')
 plt.show()
@@ -848,10 +890,53 @@ plt.show()
 plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
 plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
 plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
-plt.title('ST Constant vs Number of Nodes for Real Data')
+plt.title('ST Constant vs Number of Nodes')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
-plt.xlim(0, 1000)
 plt.legend(['real data', 'model 6', 'model 7'])
 plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models6_7.png')
+plt.show()
+
+# Plot Real Data and Model 8
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.scatter(num_nodes_m8, tree_const_m8, c=['tab:cyan']*len(num_nodes_m8))
+plt.title('ST Constant vs Number of Nodes')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.legend(['real data','model 8'])
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model8.png')
+plt.show()
+
+# Plot Real Data and Model 9
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.scatter(num_nodes_m9, tree_const_m9, c=['lightcoral']*len(num_nodes_m9))
+plt.scatter(num_nodes_m9b, tree_const_m9b, c=['indianred']*len(num_nodes_m9b))
+plt.title('ST Constant vs Number of Nodes')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.legend(['real data',  'model 9', 'model 9b'])
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model9.png')
+plt.show()
+
+# Plot Real Data and Model 10
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.scatter(num_nodes_m10, tree_const_m10, c=['tab:olive']*len(num_nodes_m10))
+plt.scatter(num_nodes_m10b, tree_const_m10b, c=['gold']*len(num_nodes_m10b))
+plt.title('ST Constant vs Number of Nodes')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.legend(['real data', 'model 10', 'model 10b'])
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models10.png')
+plt.show()
+
+# Plot Real Data and Model 11
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.scatter(num_nodes_m11, tree_const_m11, c=['springgreen']*len(num_nodes_m11))
+plt.scatter(num_nodes_m11b, tree_const_m11b, c=['forestgreen']*len(num_nodes_m11b))
+plt.scatter(num_nodes_m11c, tree_const_m11c, c=['yellowgreen']*len(num_nodes_m11c))
+plt.title('ST Constant vs Number of Nodes')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.legend(['real data', 'model 11', 'model 11b', 'model 11c'])
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models11.png')
 plt.show()
