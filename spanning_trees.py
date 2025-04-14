@@ -526,48 +526,6 @@ else:
     with open('pkls/log_trees_m8.pkl', 'wb') as f:
         pickle.dump(log_trees_m8, f)
 
-# ##############
-# #  model 8b  #
-# ##############
-
-# file_paths = ['pkls/num_nodes_m8b.pkl', 'pkls/tree_const_m8b.pkl', 'pkls/log_trees_m8b.pkl']
-# if check_file_paths(file_paths):
-#     with open('pkls/num_nodes_m8b.pkl', 'rb') as f:
-#         num_nodes_m8b = pickle.load(f)
-#     with open('pkls/tree_const_m8b.pkl', 'rb') as f:
-#         tree_const_m8b = pickle.load(f)
-#     with open('pkls/log_trees_m8b.pkl', 'rb') as f:
-#         log_trees_m8b = pickle.load(f)
-# else:
-#     num_nodes_m8b = []
-#     tree_const_m8b = []
-#     log_trees_m8b = []
-
-#     for index, row in new_df.iterrows():
-#         nodes = int(row["num_vertices"])
-#         rs = int(row["rand_seed"])
-#         graph = models.model_eight(nodes, rs) # try different removal prob and scaling factors
-
-#         # calculate graph Laplacian
-#         print('calculating model 8b:', nodes, rs)
-#         Lap = nx.laplacian_matrix(graph).toarray()
-#         T = np.delete(Lap,1,0)
-#         T = np.delete(T,1,1)
-#         (sign, logabsdet) = slogdet(T)
-#         if (sign == 1):
-#             tree_const_m8b.append(np.exp(logabsdet/nodes))
-#             num_nodes_m8b.append(nodes)
-#             log_trees_m8b.append(logabsdet)
-    
-#     # Save the lists as pickles so I do not have to run the code each time
-#     with open('pkls/num_nodes_m8b.pkl', 'wb') as f:
-#         pickle.dump(num_nodes_m8b, f)
-#     with open('pkls/tree_const_m8b.pkl', 'wb') as f:
-#         pickle.dump(tree_const_m8b, f)
-#     with open('pkls/log_trees_m8b.pkl', 'wb') as f:
-#         pickle.dump(log_trees_m8b, f)
-
-
 #############
 #  model 9  #
 #############
