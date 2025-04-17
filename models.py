@@ -570,7 +570,7 @@ def model_two_rand_removal(n, rand_seed, scaling_factor=6.8, remove_prob=0.2):
         return G_sub
 
 # Model 12
-def model_eight_order_switched(n, rand_seed, scaling_factor=0.3, remove_prob=0.05):
+def model_eight_order_switched(n, rand_seed, scaling_factor=0.5, remove_prob=0.14):
     """
     Creates a graph based on Delaunay Triangulation of the vertices,
     add edges via preferential attachment, and then removed edges randomly. 
