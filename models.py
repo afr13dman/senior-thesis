@@ -42,6 +42,7 @@ def model_one(num_vertices, rand_seed, base):
     - num_vertices is the number of vertices in the graph
     - rand_seed is the random seed used to generate the points
     - base is the base of the probability
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -79,9 +80,10 @@ def model_one(num_vertices, rand_seed, base):
 # Model 2
 def model_two(n, rand_seed):
     """
-    Creates a graph with only the (5.4n) shortest edges
+    Creates a graph with only the (5.4/2)n shortest edges
     where n is the number of vertices in the graph
     and rand_seed is the random seed used to generate the points.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -148,6 +150,7 @@ def model_three(n, rand_seed):
 def model_dt_with_removal(n, rand_seed, remove_prob=0.2):
     """
     Create a graph based on Delaunay Triangulation, then randomly remove edges.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -187,7 +190,8 @@ def model_dt_with_removal(n, rand_seed, remove_prob=0.2):
 def model_dt_with_removal_and_add(n, rand_seed, remove_prob=0.2, add_prob=0.05):
     """
     Create a graph based on Delaunay Triangulation.
-    Then randomly remove edges and randomly add edges.
+    Then randomly removes edges and randomly adds edges.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -282,11 +286,14 @@ def model_dt_add_short_edges(n, rand_seed):
 def model_dt_add_short_remove_long(n, rand_seed, remove_fraction=0.2):
     """
     Creates a graph based on Delaunay Triangulation of the vertices,
-    adds some of the shortest edges and removes a fraction of the longest ones.
+    adds the n shortest edges not already in the graph,
+    and finally, removes a fraction of the longest ones.
+    Ensures that the returned graph is connected.
 
     Function returns the modified graph.
     """
-    G = model_dt_add_short_edges(n, rand_seed)  # Start with Model 6
+    # Start with Model 6: DT with adding shortest edges
+    G = model_dt_add_short_edges(n, rand_seed)
 
     # Collect all edges with distances
     edge_list = [(u, v, math.dist((G.nodes[u]['x_axis'], G.nodes[u]['y_axis']),
@@ -318,6 +325,7 @@ def model_eight(n, rand_seed, scaling_factor=0.3, remove_prob=0.05):
     """
     Creates a graph based on Delaunay Triangulation of the vertices,
     then removed edges randomly and add edges via preferential attachment.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -383,8 +391,10 @@ def model_eight(n, rand_seed, scaling_factor=0.3, remove_prob=0.05):
 # Model 9
 def model_dt_with_removal_add_shortest_edges(n, rand_seed, remove_prob=0.2):
     """
-    Create a graph based on Delaunay Triangulation, then randomly remove edges,
-    next add shortest edges.
+    Create a graph based on Delaunay Triangulation, 
+    then randomly remove edges, and finally,
+    add the n shortest edges not already in the graph.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -442,7 +452,10 @@ def model_dt_with_removal_add_shortest_edges(n, rand_seed, remove_prob=0.2):
 # Model 10
 def model_dt_add_shortest_edges_remove_rand(n, rand_seed, remove_prob=0.2):
     """
-    Create a graph based on Delaunay Triangulation, add shortest edges, then randomly remove edges.
+    Create a graph based on Delaunay Triangulation, 
+    add the n shortest edges not already in the graph.
+    and finally, randomly remove edges.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -503,7 +516,9 @@ def model_two_rand_removal(n, rand_seed, scaling_factor=6.8, remove_prob=0.2):
     Creates a graph with only the (5.4n) shortest edges
     where n is the number of vertices in the graph
     and rand_seed is the random seed used to generate the points.
-    Then randomly remove points
+    Then, adds the shortest edges not in the graph based on a factor of n.
+    Finally, randomly remove edges.
+    Ensures that the returned graph is connected.
 
     Function returns the graph.
     """
@@ -552,4 +567,69 @@ def model_two_rand_removal(n, rand_seed, scaling_factor=6.8, remove_prob=0.2):
         # Create a subgraph of the largest connected component
         G_sub = G.subgraph(largest_cc).copy()
         
+        return G_sub
+
+# Model 12
+def model_eight_order_switched(n, rand_seed, scaling_factor=0.3, remove_prob=0.05):
+    """
+    Creates a graph based on Delaunay Triangulation of the vertices,
+    add edges via preferential attachment, and then removed edges randomly. 
+    Ensures that the returned graph is connected.
+
+    Function returns the graph.
+    """
+    G = create_graph(n, rand_seed)
+
+    # Create a list of node positions
+    points = np.array([[float(G.nodes()[v]['x_axis']), float(G.nodes()[v]['y_axis'])] for v in G.nodes()])
+
+    # Compute Delaunay triangulation and build the graph
+    tri = Delaunay(points)
+    for simplex in tri.simplices:
+        for i in range(3):
+            for j in range(i + 1, 3):
+                G.add_edge(simplex[i], simplex[j])
+                
+    # Define number of new edges based on scaling factor
+    num_new_edges = int(scaling_factor * n)
+
+    # Adds edges via preferential attachment 
+    degrees = np.array([G.degree(n) for n in G.nodes()])
+    node_list = list(G.nodes())
+    
+    for _ in range(num_new_edges):
+        # Select a random node
+        node1 = random.choice(node_list)
+        
+        # Compute preferential probabilities
+        degree_sum = degrees.sum()
+        probabilities = degrees / degree_sum if degree_sum > 0 else np.ones(len(degrees)) / len(degrees)
+        
+        # Select another node with probability proportional to its degree
+        node2 = np.random.choice(node_list, p=probabilities)
+        
+        # Avoid self-loops and duplicate edges
+        if node1 != node2 and not G.has_edge(node1, node2):
+            G.add_edge(node1, node2)
+            
+            # Update degrees array
+            degrees[node_list.index(node1)] += 1
+            degrees[node_list.index(node2)] += 1
+    
+    edges_to_remove = []
+    for edge in G.edges():
+        if random.random() < remove_prob:
+            edges_to_remove.append(edge)
+
+    G.remove_edges_from(edges_to_remove)
+
+    # Check for connected components
+    if nx.is_connected(G):
+        return G
+    else:
+        # Find the largest connected component
+        largest_cc = max(nx.connected_components(G), key=len)
+        
+        # Create a subgraph of the largest connected component
+        G_sub = G.subgraph(largest_cc).copy()
         return G_sub
