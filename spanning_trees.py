@@ -90,7 +90,7 @@ else:
 #############
 
 # Import data to get rand_seed, num_vertices, and prob base
-df = pd.read_csv("model_one_desired_avg_deg.csv")
+df = pd.read_csv("csv_files/model_one_desired_avg_deg.csv")
 
 file_paths = ['pkls/num_nodes_m1.pkl', 'pkls/tree_const_m1.pkl', 'pkls/log_trees_m1.pkl']
 if check_file_paths(file_paths):
@@ -704,7 +704,33 @@ if check_file_paths(file_paths):
     with open('pkls/log_trees_m11.pkl', 'rb') as f:
         log_trees_m11 = pickle.load(f)
 else:
-    pass
+    num_nodes_m11 = []
+    tree_const_m11 = []
+    log_trees_m11 = []
+
+    for index, row in new_df.iterrows():
+        nodes = int(row["num_vertices"])
+        rs = int(row["rand_seed"])
+        graph = models.model_two_rand_removal(n, rs, scaling_factor=6.8, remove_prob=0.2)
+
+        # calculate graph Laplacian
+        print('calculating model 11:', nodes, rs)
+        Lap = nx.laplacian_matrix(graph).toarray()
+        T = np.delete(Lap,1,0)
+        T = np.delete(T,1,1)
+        (sign, logabsdet) = slogdet(T)
+        if (sign == 1):
+            tree_const_m11.append(np.exp(logabsdet/nodes))
+            num_nodes_m11.append(nodes)
+            log_trees_m11.append(logabsdet)
+    
+    # Save the lists as pickles so I do not have to run the code each time
+    with open('pkls/num_nodes_m11.pkl', 'wb') as f:
+        pickle.dump(num_nodes_m11, f)
+    with open('pkls/tree_const_m11.pkl', 'wb') as f:
+        pickle.dump(tree_const_m11, f)
+    with open('pkls/log_trees_m11.pkl', 'wb') as f:
+        pickle.dump(log_trees_m11, f)
 
 ###############
 #  model 11b  #
@@ -719,7 +745,33 @@ if check_file_paths(file_paths):
     with open('pkls/log_trees_m11b.pkl', 'rb') as f:
         log_trees_m11b = pickle.load(f)
 else:
-    pass
+    num_nodes_m11b = []
+    tree_const_m11b = []
+    log_trees_m11b = []
+
+    for index, row in new_df.iterrows():
+        nodes = int(row["num_vertices"])
+        rs = int(row["rand_seed"])
+        graph = models.model_two_rand_removal(nodes, rs, scaling_factor=9, remove_prob=0.4)
+
+        # calculate graph Laplacian
+        print('calculating model 11b:', nodes, rs)
+        Lap = nx.laplacian_matrix(graph).toarray()
+        T = np.delete(Lap,1,0)
+        T = np.delete(T,1,1)
+        (sign, logabsdet) = slogdet(T)
+        if (sign == 1):
+            tree_const_m11b.append(np.exp(logabsdet/nodes))
+            num_nodes_m11b.append(nodes)
+            log_trees_m11b.append(logabsdet)
+    
+    # Save the lists as pickles so I do not have to run the code each time
+    with open('pkls/num_nodes_m11b.pkl', 'wb') as f:
+        pickle.dump(num_nodes_m11b, f)
+    with open('pkls/tree_const_m11b.pkl', 'wb') as f:
+        pickle.dump(tree_const_m11b, f)
+    with open('pkls/log_trees_m11b.pkl', 'wb') as f:
+        pickle.dump(log_trees_m11b, f)
 
 ###############
 #  model 11c  #
@@ -734,46 +786,78 @@ if check_file_paths(file_paths):
     with open('pkls/log_trees_m11c.pkl', 'rb') as f:
         log_trees_m11c = pickle.load(f)
 else:
-    pass
+    num_nodes_m11c = []
+    tree_const_m1c = []
+    log_trees_m11c = []
+
+    for index, row in new_df.iterrows():
+        nodes = int(row["num_vertices"])
+        rs = int(row["rand_seed"])
+        graph = models.model_two_rand_removal(nodes, rs, scaling_factor=14, remove_prob=0.6)
+
+        # calculate graph Laplacian
+        print('calculating model 11c:', nodes, rs)
+        Lap = nx.laplacian_matrix(graph).toarray()
+        T = np.delete(Lap,1,0)
+        T = np.delete(T,1,1)
+        (sign, logabsdet) = slogdet(T)
+        if (sign == 1):
+            tree_const_m11c.append(np.exp(logabsdet/nodes))
+            num_nodes_m11c.append(nodes)
+            log_trees_m11c.append(logabsdet)
+    
+    # Save the lists as pickles so I do not have to run the code each time
+    with open('pkls/num_nodes_m11c.pkl', 'wb') as f:
+        pickle.dump(num_nodes_m11c, f)
+    with open('pkls/tree_const_m11c.pkl', 'wb') as f:
+        pickle.dump(tree_const_m11c, f)
+    with open('pkls/log_trees_m11c.pkl', 'wb') as f:
+        pickle.dump(log_trees_m11c, f)
+
+##############
+#  model 12  #
+##############
+
+file_paths = ['pkls/num_nodes_m12.pkl', 'pkls/tree_const_m12.pkl', 'pkls/log_trees_m12.pkl']
+if check_file_paths(file_paths):
+    with open('pkls/num_nodes_m12.pkl', 'rb') as f:
+        num_nodes_m12 = pickle.load(f)
+    with open('pkls/tree_const_m12.pkl', 'rb') as f:
+        tree_const_m12 = pickle.load(f)
+    with open('pkls/log_trees_m12.pkl', 'rb') as f:
+        log_trees_m12 = pickle.load(f)
+else:
+    num_nodes_m12 = []
+    tree_const_m12 = []
+    log_trees_m12 = []
+
+    for index, row in new_df.iterrows():
+        nodes = int(row["num_vertices"])
+        rs = int(row["rand_seed"])
+        graph = models.model_eight_order_switched(nodes, rs)
+
+        # calculate graph Laplacian
+        print('calculating model 12:', nodes, rs)
+        Lap = nx.laplacian_matrix(graph).toarray()
+        T = np.delete(Lap,1,0)
+        T = np.delete(T,1,1)
+        (sign, logabsdet) = slogdet(T)
+        if (sign == 1):
+            tree_const_m12.append(np.exp(logabsdet/nodes))
+            num_nodes_m12.append(nodes)
+            log_trees_m12.append(logabsdet)
+    
+    # Save the lists as pickles so I do not have to run the code each time
+    with open('pkls/num_nodes_m12.pkl', 'wb') as f:
+        pickle.dump(num_nodes_m12, f)
+    with open('pkls/tree_const_m12.pkl', 'wb') as f:
+        pickle.dump(tree_const_m12, f)
+    with open('pkls/log_trees_m12.pkl', 'wb') as f:
+        pickle.dump(log_trees_m12, f)
 
 ###################################
 # plot st constant v num of nodes #
 ###################################
-
-# PLOT AGAINST EACH OTHER
-
-# plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-# plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
-# plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
-# plt.scatter(num_nodes_m8, tree_const_m8, c=['g']*len(num_nodes_m8))
-# plt.scatter(num_nodes_m9, tree_const_m9, c=['tab:red']*len(num_nodes_m9))
-# plt.scatter(num_nodes_m9b, tree_const_m9b, c=['tab:pink']*len(num_nodes_m9b))
-# plt.scatter(num_nodes_m10, tree_const_m10, c=['m']*len(num_nodes_m10))
-# plt.scatter(num_nodes_m10b, tree_const_m10b, c=['tab:purple']*len(num_nodes_m10b))
-# plt.title('ST Constant vs Number of Nodes for Real Data')
-# plt.xlabel('Number of Nodes')
-# plt.ylabel('ST Constant')
-# plt.legend(['real data', 'model 6', 'model 7', 'model 8', 'model 9', 'model 9b', 'model 10', 'model 10b'])
-# plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models.png')
-# plt.show()
-
-# # Zoom in
-# plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
-# plt.scatter(num_nodes_m6, tree_const_m6, c=['tab:orange']*len(num_nodes_m6))
-# plt.scatter(num_nodes_m7, tree_const_m7, c=['tab:brown']*len(num_nodes_m7))
-# plt.scatter(num_nodes_m8, tree_const_m8, c=['g']*len(num_nodes_m8))
-# plt.scatter(num_nodes_m9, tree_const_m9, c=['tab:red']*len(num_nodes_m9))
-# plt.scatter(num_nodes_m9b, tree_const_m9b, c=['tab:pink']*len(num_nodes_m9b))
-# plt.scatter(num_nodes_m10, tree_const_m10, c=['m']*len(num_nodes_m10))
-# plt.scatter(num_nodes_m10b, tree_const_m10b, c=['tab:purple']*len(num_nodes_m10b))
-# plt.title('ST Constant vs Number of Nodes for Real Data')
-# plt.xlabel('Number of Nodes')
-# plt.ylabel('ST Constant')
-# plt.xlim(0, 1000)
-# plt.legend(['real data', 'model 6', 'model 7', 'model 8', 'model 9', 'model 9b', 'model 10', 'model 10b'])
-# plt.savefig(f'imgs/st_cons/st_cons_zoomed_in_real_data_vs_models.png')
-# plt.show()
-
 
 # Plot Real Data and Model 1
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
@@ -897,4 +981,15 @@ plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
 plt.legend(['real data', 'model 11', 'model 11b', 'model 11c'])
 plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models11.png')
+plt.show()
+
+# Plot Real Data and Model 12
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.scatter(num_nodes_m8, tree_const_m8, c=['tab:cyan']*len(num_nodes_m8))
+plt.scatter(num_nodes_m12, tree_const_m12, c=['darkcyan']*len(num_nodes_m12))
+plt.title('ST Constant vs Number of Nodes')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.legend(['real data', 'model 12'])
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models12.png')
 plt.show()
