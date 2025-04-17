@@ -4,6 +4,7 @@ from gerrychain import Graph
 import re
 import pandas as pd
 from statistics import median
+import networkx as nx
 
 def max_degree(G):
     # Initialize max_degree
@@ -17,7 +18,7 @@ def max_degree(G):
     return max_degree
 
 # assign directory
-df_type = 't' # Work with either tracts (t) or block groups (bg)
+df_type = 'bg' # Work with either tracts (t) or block groups (bg)
 directory = 'local copy of data/' + df_type + '/'
 state_vertices = []
 
@@ -29,6 +30,12 @@ for state_file in os.listdir(directory):
     if os.path.isfile(f):
         # Convert json file to graph object
         state_graph = Graph.from_json(f)
+
+        # Planar?
+        planar = nx.check_planarity(state_graph)[0]
+        
+        # Connected?
+        connected = nx.is_connected(state_graph)
 
         # Calculate avg degree of graph
         avg_degree = 2 * state_graph.number_of_edges() / state_graph.number_of_nodes()
@@ -42,7 +49,10 @@ for state_file in os.listdir(directory):
 
         state = re.search(r"_.*?\.", state_file)
         map_type = re.search(r"^.*?_", state_file)
-        state_vertices.append([state.group()[1:-1], map_type.group()[:-1], avg_degree, median_degree, max_deg])
+        state_vertices.append([state.group()[1:-1], map_type.group()[:-1], 
+                               planar, connected,
+                               avg_degree, median_degree, max_deg])
     
-df = pd.DataFrame(state_vertices, columns=['State', 'Map Type', 'Avg Degree', 'Median Degree', 'Max Degree'])
+df = pd.DataFrame(state_vertices, columns=['State', 'Map Type', 'Planar', 'Connected',
+                                            'Avg Degree', 'Median Degree', 'Max Degree'])
 df.to_csv(f"degree_exploration/{df_type}_avg_median_deg.csv", header=True, index = False)
