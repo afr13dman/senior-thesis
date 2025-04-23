@@ -868,13 +868,21 @@ else:
 # plot st constant v num of nodes #
 ###################################
 
+# Plot Real Data
+plt.scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
+plt.title('ST Constant vs Number of Nodes for Real Data')
+plt.xlabel('Number of Nodes')
+plt.ylabel('ST Constant')
+plt.savefig(f'imgs/st_cons/st_cons_real_data.png')
+plt.show()
+
 # Plot Real Data and Model 1
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
 # First subplot: Original plot
 axes[0].scatter(num_nodes_real, tree_const_real, c=['b']*len(num_nodes_real))
 axes[0].scatter(num_nodes_m1, tree_const_m1, c=['r']*len(num_nodes_m1))
-axes[0].set_title('ST Constant vs Number of Nodes for Real Data')
+axes[0].set_title('ST Constant vs Number of Nodes')
 axes[0].set_xlabel('Number of Nodes')
 axes[0].set_ylabel('ST Constant')
 axes[0].legend(['real data', 'model 1'])
@@ -1000,5 +1008,5 @@ plt.title('ST Constant vs Number of Nodes')
 plt.xlabel('Number of Nodes')
 plt.ylabel('ST Constant')
 plt.legend(['real data', 'model 12'])
-plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_models12.png')
+plt.savefig(f'imgs/st_cons/st_cons_real_data_vs_model12.png')
 plt.show()
