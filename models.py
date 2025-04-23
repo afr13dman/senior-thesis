@@ -1,5 +1,5 @@
 # This file includes functions that will return a graph based on the model chosen 
-# given a number of vertices, random seed, and base probability (where applicable)
+# given a number of vertices, random seed, base probability (where applicable), and other criteria
 
 # Import libraries
 import math
@@ -539,9 +539,6 @@ def model_two_rand_removal(n, rand_seed, scaling_factor=6.8, remove_prob=0.2):
             # Add it to the dataframe
             dist_df.loc[len(dist_df)] = [i, j, distance]
     
-    # for model 11 scaling_factor 6.8, removal 0.2
-    # for model 11b scaling_factor 9, removal 0.4
-    # for model 11c scaling_factor 14, removal 0.6
     edges = int((scaling_factor/2) * n) 
     dist_sorted = dist_df.sort_values("distance").head(edges)
     for index, row in dist_sorted.iterrows():
