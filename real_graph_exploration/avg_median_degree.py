@@ -1,4 +1,9 @@
-# import required module
+'''
+This file calculates the characteristics of the real data dual graphs
+specifically for census tracts and census block groups.
+'''
+
+# import required libraries
 import os
 from gerrychain import Graph
 import re
@@ -6,6 +11,7 @@ import pandas as pd
 from statistics import median
 import networkx as nx
 
+# Create Definition
 def max_degree(G):
     # Initialize max_degree
     max_degree = -1
@@ -47,12 +53,16 @@ for state_file in os.listdir(directory):
         # Calculate max degree
         max_deg = max_degree(state_graph)
 
+        # state and map type
         state = re.search(r"_.*?\.", state_file)
         map_type = re.search(r"^.*?_", state_file)
+
+        # add to list
         state_vertices.append([state.group()[1:-1], map_type.group()[:-1], 
                                planar, connected,
                                avg_degree, median_degree, max_deg])
-    
+
+# Turn list into dataset and save
 df = pd.DataFrame(state_vertices, columns=['State', 'Map Type', 'Planar', 'Connected',
                                             'Avg Degree', 'Median Degree', 'Max Degree'])
 df.to_csv(f"degree_exploration/{df_type}_avg_median_deg.csv", header=True, index = False)
