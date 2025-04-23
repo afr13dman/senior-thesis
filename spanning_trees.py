@@ -60,7 +60,7 @@ else:
     num_nodes_real = []
     tree_const_real = []
     log_trees_real = []
-    q = ['cnty', 't', 'bg']
+    q = ['t', 'bg']
     for p in q:
         directory = "local copy of data/" + p
 
