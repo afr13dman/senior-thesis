@@ -1,6 +1,15 @@
 '''
-code taken and edited from lattice_comparison.py
+This file calculates the spanning tree constant and the log of the spanning tree constant
+for the real data at census tract and census block group levels as well as for all models.
+Then, it creates plots comparing the spanning tree count for each model to the real data.
+
+The code for calculating the spanning tree constant and the log spanning tree constant
+was taken and edited from the file lattice_comparison.py written by former CGU student 
+Sara Anderson (github username: sranders15). The code is located in the repository:
+https://github.com/sarah-cannon/Dual_Graph_Research, which is currently private
+but may be made public in the future.
 '''
+
 # Import libraries
 import os
 import networkx as nx
@@ -711,7 +720,7 @@ else:
     for index, row in new_df.iterrows():
         nodes = int(row["num_vertices"])
         rs = int(row["rand_seed"])
-        graph = models.model_two_rand_removal(n, rs, scaling_factor=6.8, remove_prob=0.2)
+        graph = models.model_two_rand_removal(nodes, rs, scaling_factor=6.8, remove_prob=0.2)
 
         # calculate graph Laplacian
         print('calculating model 11:', nodes, rs)
